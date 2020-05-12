@@ -1,5 +1,5 @@
 % Funktionen kopiert aus Vorlesungen und Übungen
-% RS ist Xs rangehängt an Ys
+% append(Xs, Ys, RS) :- RS ist Xs rangehängt an Ys
 append([],Xs,Xs).
 append([X|Xs], Ys, [X|Rs]) :- append(Xs,Ys,Rs).
 
@@ -28,6 +28,7 @@ praefix([X|Xs],[X|Ys]) :- praefix(Xs,Ys).
 postfix(Xs,Ys) :- append(_,Xs,Ys).
 
 % mit reverse und praefix
+% beide listen reversen und gucken ob Xrs jetzt vorne bei Yrs ist
 postfix(Xs,Ys) :- reverse(Xs,Xrs), reverse(Ys,Yrs), praefix(Xrs,Yrs).
 
 
@@ -52,12 +53,14 @@ membertree(X,node(_,Lb,Rb)) :- binbaum(Rb), binbaum(Lb), membertree(X,Rb).
 % A3
 
 % Baum wird in preorder in die Liste Ys gespeichert 
+% erst das aktuelle element, links dann rechts
 % praeorder(node(42,node(13,node(6,empty,empty),node(36,empty,empty)),node(57,node(47,empty,empty),node(69,node(64,empty,empty),node(73,empty,empty)))),Z).  
 % Z = [42, 13, 6, 36, 57, 47, 69, 64, 73]. 
 praeorder(empty,[]).
 praeorder(node(X,Xlb,Xrb), Ys) :- praeorder(Xlb,Yls), praeorder(Xrb,Yrs), append([X|Yls],Yrs,Ys).
 
 % Baum wird in postorder in die Liste Ys gespeichert
+% erst das linkeste, dann rechts und dann eins nach oben
 % postorder(node(42,node(13,node(6,empty,empty),node(36,empty,empty)),node(57,node(47,empty,empty),node(69,node(64,empty,empty),node(73,empty,empty)))),Z). 
 % Z = [6, 36, 13, 47, 64, 73, 69, 57, 42].
 postorder(empty,[]).
