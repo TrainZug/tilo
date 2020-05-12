@@ -1,11 +1,4 @@
 % Funktionen kopiert aus Vorlesungen und Übungen
-% append(Xs, Ys, RS) :- RS ist Xs rangehängt an Ys
-append([],Xs,Xs).
-append([X|Xs], Ys, [X|Rs]) :- append(Xs,Ys,Rs).
-
-% Ys ist Xs wo hinten X dran ist
-attach(Xs,X,Ys) :-  append(Xs,[X],Ys).
-
 % Ys ist Xs rückwärts
 reverse([],[]).
 reverse([X|Xs],Ys)  :- reverse(Xs,Hs), append(Hs,[X],Ys).
@@ -27,7 +20,7 @@ praefix([X|Xs],[X|Ys]) :- praefix(Xs,Ys).
 % mit append
 postfix(Xs,Ys) :- append(_,Xs,Ys).
 
-% mit reverse und praefix
+% mit reverse und praefix ohne append
 % beide listen reversen und gucken ob Xrs jetzt vorne bei Yrs ist
 postfix(Xs,Ys) :- reverse(Xs,Xrs), reverse(Ys,Yrs), praefix(Xrs,Yrs).
 
