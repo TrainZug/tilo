@@ -47,7 +47,7 @@ delta(z0, nix, #, z0, [1,#,1]).
 
 % b)
 
-%lvonM(Ws) :- Ws ist ein Wort der von M erkannten Sprache.
+% lvonM(Ws) :- Ws ist ein Wort der Sprache
 lvonM(Ws) :- start(Sz), ende(K), keller(K), es_plus(Sz, Ws, [K], _, _), sigma_stern(Ws).
 
 % Einzelschrittrelationen
