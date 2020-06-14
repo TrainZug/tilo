@@ -44,19 +44,20 @@ delta(z0, nix, #, z0, [1]).
 delta(z0, nix, #, z0, [0,#,0]).
 delta(z0, nix, #, z0, [1,#,1]).
 
-
 % b)
 
 % lvonM(Ws) :- Ws ist ein Wort der Sprache
-lvonM(Ws) :- start(Sz), ende(K), keller(K), es_plus(Sz, Ws, [K], _, _), sigma_stern(Ws).
+lvonM(Ws) :- start(Z), ende(K), zustand(Zneu),es_plus(Z, Ws, [K], Zneu, [], []).
 
 % Einzelschrittrelationen
-es(S, W, [K|Ks], Sn, Kn) :- delta(S, W, K, Sn, Kr), append(Kr, Ks, Kn).
+% (z, aw, gs, z' , w, s's) ∈ +M falls (z, a, g, z' , s' ) ∈ δ
+es(Z, [W|Ws], [T|KRs], Zneu, Ws, KNs) :- delta(Z, W, T, Zneu, KA), append(KA, KRs, KNs).
+% (z, w, gs, z' , w, s's) ∈ +M falls (z, nix, g, z' , s' ) ∈ δ
+es(Z, Ws, [T|KRs], Zneu, Ws, KNs) :- delta(Z, nix, T, Zneu, KA), append(KA, KRs, KNs).
 
-% Transitiver Abschluss der Einzelschrittrelationen
-es_plus(_, [], [], _, []).
-es_plus(S, Ws, Ks, Sn, Kn) :- es(S, nix, Ks, Sn, Kn), es_plus(Sn, Ws, Kn, _, _).
-es_plus(S, [W|Ws], Ks, Sn, Kn) :- es(S, W, Ks, Sn, Kn), es_plus(Sn, Ws, Kn, _, _).
+% Transitiver Abschluss
+es_plus(Z, Ws, Ks, Zneu, Wsneu, Kneu) :- es(Z, Ws, Ks, Zneu, Wsneu, Kneu).
+es_plus(Z, Ws, Ks, Zneu, Wsneu, Kneu) :- es(Z, Ws, Ks, Z1, Ws1, K1), es_plus(Z1, Ws1, K1, Zneu, Wsneu, Kneu).
 
 % sigma_stern(Ws) :- Ws ist die Menge der Wörter über Sigma
 % wie in Praktikum 4
